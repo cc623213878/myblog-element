@@ -1,14 +1,21 @@
 <template>
   <el-container class="app-body">
-    <el-header class="header">
+    <el-header class="header" style="height: 61px;">
       <el-row>
-        <el-col :span="4">
-          <a href="#">
-            <img class="logo" src="./assets/logo.png">
-          </a>
-        </el-col>
-        <el-col :span="6">
-          <div></div>
+        <el-col>
+          <el-menu :default-active="activeIndex" mode="horizontal" class="el-menu-demo" router>
+            <el-menu-item>
+              <a href="/">
+                <img class="logo" src="./assets/logo.png">
+              </a>
+            </el-menu-item>
+            <el-menu-item index="/home">博文</el-menu-item>
+            <el-menu-item>
+              <el-link :underline="false" href="#">MAX导航</el-link>
+            </el-menu-item>
+            <el-menu-item index="/message">留言</el-menu-item>
+            <el-menu-item index="/user">用户登录</el-menu-item>
+          </el-menu>
         </el-col>
       </el-row>
     </el-header>
@@ -24,7 +31,6 @@
             </el-row>
           </el-collapse-item>
           <el-collapse-item title="友情链接" name="3" class="friend">
-            <div></div>
           </el-collapse-item>
           <el-collapse-item title="捐赠" name="4" class="friend">
             <div class="block">
@@ -50,28 +56,33 @@
 </template>
 
 <script>
-import ElAside from "../node_modules/element-ui/packages/aside/src/main.vue";
-import ElHeader from "../node_modules/element-ui/packages/header/src/main.vue";
-import ElMain from "../node_modules/element-ui/packages/main/src/main.vue";
-import ElFooter from "../node_modules/element-ui/packages/footer/src/main.vue";
+import ElAside from "element-ui/packages/aside/src/main";
+import ElHeader from "element-ui/packages/header/src/main";
+import ElMain from "element-ui/packages/main/src/main";
+import ElFooter from "element-ui/packages/footer/src/main";
 import ElRow from "element-ui/packages/row/src/row";
-import ElLink from "../node_modules/element-ui/packages/link/src/main.vue";
+import ElLink from "element-ui/packages/link/src/main";
+import ElMenu from "element-ui/packages/menu/src/menu";
+
 export default {
+	name:'app',
   components: {
     ElLink,
     ElRow,
     ElFooter,
     ElMain,
     ElHeader,
-    ElAside
+    ElAside,
+    ElMenu
   },
-  methods: {},
   data() {
     return {
       activeNames: ["1", "2", "4"],
-      mydescribed: "111111111111"
+      mydescribed: "111111111111",
+      activeIndex: "home"
     };
-  }
+  },
+  methods: {}
 };
 </script>
 
@@ -89,12 +100,12 @@ body {
   height: 100%;
 }
 .logo {
-  height: 59px;
+  height: 54px;
 }
 .header {
-  line-height: 20px;
-  border-bottom: 1px solid rgba(68, 158, 255, 0.39);
+  border-bottom: 1px solid #e6e6e6;
   margin: 0 10px 0 10px;
+  padding-bottom: 1px;
 }
 .footer {
   font-size: 12px;
