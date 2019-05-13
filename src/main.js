@@ -12,19 +12,19 @@ Vue.use(VueRouter);
 const router = new VueRouter({
     mode: 'history',
     routes: [{
-            path: '/',
-			name: 'home',
-            component: articleList,
-            alias: '/home'
-        },
-		{
-		    path: '/article/:id',
-			name: 'article',
-		    component: articleView,
-		}
+        path: '/',
+        name: 'home',
+        component: articleList,
+        alias: '/home'
+    },
+        {
+            path: '/article/:id',
+            name: 'article',
+            component: articleView,
+        }
     ]
 });
-new Vue({
+var vm = new Vue({
     el: '#app',
     router: router,
     render: h => h(App)
