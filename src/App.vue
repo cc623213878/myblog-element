@@ -44,8 +44,7 @@
                 </el-collapse>
             </el-aside>
             <el-container>
-                <el-main style="padding: 0" class="main-body-view" id="scroll-view">
-                    {{aa}}
+                <el-main style="padding: 0" class="main-body-view" id="scroll-view" v-on:scroll.native="setViewPoint">
                     <div id="mainBody">
                         <div class="main-body-view-content">
                             <router-view></router-view>
@@ -53,12 +52,12 @@
                         <el-footer class="footer" height="20px">
                             <el-link>blog.chchyu.cn</el-link>&nbsp;&nbsp;&nbsp;&nbsp;@2019
                         </el-footer>
-                        <div class="scroll-bar">
+                        <div class="scroll-bar" id="scroll-bar">
                             <el-slider
                                 v-model="viewPoint"
                                 :show-tooltip="false"
                                 vertical
-                                :max="mainBodyHeight"
+                                :max="scrollviewhideHeight"
                                 :height="scrollBarHeight">
                             </el-slider>
                         </div>
@@ -72,40 +71,56 @@
 <script>
     export default {
         name: 'app',
-        components: {},
         data() {
             return {
                 activeNames: ["1", "2", "4"],
                 mydescribed: "111111111111",
                 activeIndex: "home",
-                viewPoint: 0,
-                aa: 0,
+                viewPoint: 100,
+                scrollviewhideHeight: 100,
+                scrollmultiple: 1,
                 mainBodyHeight: 0,
-                scrollBarHeight: (document.body.clientHeight - 141).toString() + 'px'
+                scrollBarHeight: (document.body.clientHeight - 181).toString() + 'px',
             };
         },
         created: function () {
             window.onresize = () => {
                 return (() => {
-                    this.scrollBarHeight = (document.body.clientHeight - 141).toString() + 'px';
+                    this.scrollBarChange();
+                    this.scrollBarHeight = (document.body.clientHeight - 181).toString() + 'px';
                 })()
-            }
-
+            };
         },
         mounted: function () {
-            vm.$once('getmainBodyHeight', function () {
-                his.mainBodyHeight = document.getElementById('mainBody').clientHeight;
-                this.viewPoint = this.mainBodyHeight;
-            });
-            vm.$emit('getmainBodyHeight');
+            this.scrollBarChange();
+        },
+        updated: function () {
+            this.mainBodyHeight = document.getElementById('mainBody').clientHeight;
         },
         watch: {
             viewPoint: function () {
-                this.aa = this.viewPoint;
-                document.getElementById('mainBody').scrollTo(0, this.viewPoint - this.mainBodyHeight);
+                document.getElementById('scroll-view').scrollTop = (this.scrollviewhideHeight - this.viewPoint) / this.scrollmultiple;
+            },
+            mainBodyHeight: function () {
+                this.scrollBarChange();
             }
         },
-        methods: {}
+        methods: {
+            scrollBarChange() {
+                this.mainBodyHeight = document.getElementById('mainBody').offsetHeight;
+                this.scrollviewhideHeight = this.mainBodyHeight - (document.body.clientHeight - 61);
+                if (this.scrollviewhideHeight < 100) {
+                    this.scrollmultiple = 100 / this.scrollviewhideHeight;
+                    this.scrollviewhideHeight = 100;
+                } else {
+                    this.scrollmultiple = 1;
+                }
+                this.viewPoint = this.scrollviewhideHeight;
+            },
+            setViewPoint() {
+                this.viewPoint = this.scrollviewhideHeight - document.getElementById('scroll-view').scrollTop * this.scrollmultiple;
+            }
+        }
     };
 </script>
 

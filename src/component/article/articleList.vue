@@ -33,13 +33,14 @@
     </div>
 </template>
 <script>
+    //文章列表
     export default {
         components: {},
         data() {
             return {
                 articleList: [],
                 pageSize: 10,
-                articleNum: 121,
+                articleNum: 126,
                 currentPage: 1
             };
         },

@@ -38,6 +38,7 @@ router.push({ path: '/user', params: { userId }}) // -> /user
     import ArticleMessage from "~/component/message/articleMessage";
 
     export default {
+        //文章页
         name: 'articleView',
         components: {
             ArticleMessage,
